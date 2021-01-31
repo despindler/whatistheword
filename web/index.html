@@ -1,0 +1,77 @@
+<html>
+
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<script src="https://kit.fontawesome.com/f2984db580.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.2.3/math.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+		<script src="words.js"></script>
+
+		<title>Wortsuche</title>
+	</head>
+	<body>
+
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#" onclick="">Wortsuche</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<!--<li class="nav-item" id="navItem-all">
+					<a class="nav-link text-nowrap" href="#" onclick="showAll()">ALLE</a>
+				</li>
+				<li class="nav-item" id="navItem-mini">
+					<a class="nav-link text-nowrap" href="#" onclick="showByCategory('Mini')">Mini</a>
+				</li>
+				<li class="nav-item" id="navItem-midi">
+					<a class="nav-link text-nowrap" href="#" onclick="showByCategory('Midi')">Midi</a>
+				</li>
+				<li class="nav-item" id="navItem-maxi">
+					<a class="nav-link text-nowrap" href="#" onclick="showByCategory('Maxi')">Maxi</a>
+				</li>
+				<li class="nav-item" id="navItem-kleens">
+					<a class="nav-link text-nowrap" href="#" onclick="showByCategory('Kleens')">Kleens</a>
+				</li>
+				<li class="nav-item" id="navItem-hrt">
+					<a class="nav-link text-nowrap" href="#" onclick="showByCategory('Hard Rock Team')">Hard Rock Team</a>
+				</li>-->
+			</ul>
+
+			<!--
+			<form id="formSearchUser" class="form-inline my-2 my-lg-0 flex-nowrap">
+				<input id="inputUserLogedInName" class="form-control mr-sm-2 input-block border border-light" type="text" value="" placeholder="Name?" aria-label="User">
+				<button id="inputUserLogedInSubmit" class="btn btn-outline-light my-2 mr-sm-2 btn-danger" type="submit">Suchen</button>
+			</form>-->
+
+		</div>
+
+	</nav>
+	<div>&nbsp;</div>
+	<div class="container" align="center">
+
+<div class="card text-center d-inline-flex">
+	<div class="card-header">
+		<h5 class="card-title" id="word"></h5>
+	</div>
+	<div class="card-body">
+		<p id="solution"></p>
+		<button id="buttonHelp" type="button" class="btn btn-secondary"><i class="fas fa-question fa-2x"></i></button>
+		<button id="buttonReset" type="button" class="btn btn-primary"><i class="fas fa-undo fa-2x"></i></button>
+		<button id="buttonNextWord" type="button" class="btn btn-primary"><i class="fas fa-angle-double-right fa-2x"></i></button>
+	</div>
+</div>
+
+	</div>
+
+	</body>
+</html>
