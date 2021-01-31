@@ -3,6 +3,7 @@ var numberOfCharacters;
 var solutionCharacters;
 var score;
 var scoringIsNew;
+var suggestToQuit;
 
 var rewards = [
 	"far fa-frown", 
@@ -12,11 +13,9 @@ var rewards = [
 	"far fa-grin", 
 	"far fa-grin-tongue", 
 	"far fa-grin-beam", 
-	"far fa-laugh-beam",
 	"far fa-grin-beam-sweat", 
 	"far fa-grin-tears", 
 	"far fa-grin-squint",
-	"far fa-laugh-squint",
 	"far fa-grin-squint-tears", 
 	"far fa-grin-stars", 
 	"far fa-grin-hearts", 
@@ -24,7 +23,39 @@ var rewards = [
 	"far fa-kiss-wink-heart", 
 	"far fa-surprise", 
 	"far fa-dizzy", 
-	"far fa-grin-tongue-wink"
+	"far fa-grin-tongue-wink",
+	"fas fa-battery-quarter",
+	"fas fa-battery-half",
+	"fas fa-battery-three-quarters",
+	"fab fa-apple",
+	"fas fa-apple-alt",
+	"fas fa-brain",
+	"fas fa-bahai",
+	"fab fa-battle-net",
+	"fas fa-biohazard",
+	"fas fa-biohazard",
+	"fas fa-ambulance",
+	"fas fa-capsules",
+	"fas fa-chart-line",
+	"fas fa-chess-board",
+	"fas fa-chess-pawn",
+	"fas fa-chess-bishop",
+	"fas fa-chess-rook",
+	"fas fa-chess-knight",
+	"fas fa-chess-king",
+	"fas fa-chess-king",
+	"fas fa-cloud-showers-heavy",
+	"fas fa-cloud-rain",
+	"fas fa-cloud-rain",
+	"fas fa-cloud-sun",
+	"fas fa-sun",
+	"fas fa-umbrella-beach",
+	"far fa-hand-rock",
+	"far fa-hand-scissors",
+	"far fa-hand-paper",
+	"fas fa-hand-middle-finger",
+	"far fa-hand-peace",
+	"fas fa-infinity"
 ];
 
 // INITIALISATION STUFF
@@ -36,6 +67,7 @@ $(document).ready(function(){
 
 function initialisePage()	{
 	score = 0;
+	suggestToQuit = true;
 	$('#reward').removeClass("fa-meh-blank");
 	$('#reward').addClass(rewards[score]);
 	
@@ -167,6 +199,10 @@ function checkIfSolved()	{
 function reward(score)	{
 	if (score >= rewards.length)	{
 		// no more emojis :-(
+		if (suggestToQuit)	{
+			alert("Es wäre jetzt an der Zeit, etwas Anderes zu tun...\r\nTrinken, Essen, Schlafen, Arbeiten, Sport, Musik, ...?");
+			suggestToQuit = false;
+		}
 		return;
 	}
 	$('#reward').removeClass(rewards[score-1]);
