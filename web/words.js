@@ -27,6 +27,7 @@ var rewards = [
 	"fas fa-battery-quarter",
 	"fas fa-battery-half",
 	"fas fa-battery-three-quarters",
+	"fas fa-battery-full",
 	"fab fa-apple",
 	"fas fa-apple-alt",
 	"fas fa-brain",
@@ -136,8 +137,8 @@ function prepareSolution()	{
 
 		character = $("<button>")
 			.attr("type", "button")
-			.attr("id", "taskCharacter" + characters[i])
-			.attr("onclick", "placeCharacter(\'" + characters[i] + "\')")
+			.attr("id", "taskCharacter" + characters[i] + i)
+			.attr("onclick", "placeCharacter(\'" + characters[i] + "\', " + i + ")")
 			.addClass("btn btn-warning")
 			.text(characters[i]);
 		$('#word').append(character, $("<span>").html("&nbsp;"));
@@ -161,14 +162,14 @@ function prepareSolution()	{
 
 // PLAYER DRAWS
 
-function placeCharacter(character)	{
+function placeCharacter(character, pos)	{
 	if (!(index < numberOfCharacters))	{
 		alert("Du hast alle Buchstaben gesetzt. Beginne von vorne oder suche ein neues Wort.");
 		return;
 	}
 	
-	$('#taskCharacter'+character).removeAttr("onclick");
-	$('#taskCharacter'+character).addClass("disabled");
+	$('#taskCharacter'+character+pos).removeAttr("onclick");
+	$('#taskCharacter'+character+pos).addClass("disabled");
 	
 	$('#solutionCharacter'+index)
 		.removeClass("btn-outline-dark")
@@ -200,7 +201,7 @@ function reward(score)	{
 	if (score >= rewards.length)	{
 		// no more emojis :-(
 		if (suggestToQuit)	{
-			alert("Es wäre jetzt an der Zeit, etwas Anderes zu tun...\r\nTrinken, Essen, Schlafen, Arbeiten, Sport, Musik, ...?");
+			alert("Wäre es jetzt nicht an der Zeit, etwas Anderes zu tun?");
 			suggestToQuit = false;
 		}
 		return;
