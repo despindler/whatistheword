@@ -1,6 +1,31 @@
 var index;
 var numberOfCharacters;
 var solutionCharacters;
+var score;
+var scoringIsNew;
+
+var rewards = [
+	"far fa-frown", 
+	"far fa-meh", 
+	"far fa-smile", 
+	"far fa-smile-wink", 
+	"far fa-grin", 
+	"far fa-grin-tongue", 
+	"far fa-grin-beam", 
+	"far fa-grin-beam-sweat", 
+	"far fa-grin-tears", 
+	"far fa-grin-squint", 
+	"far fa-grin-squint-tears", 
+	"far fa-grin-stars", 
+	"far fa-grin-hearts", 
+	"far fa-kiss-beam", 
+	"far fa-kiss-wink-heart", 
+	"far fa-surprise", 
+	"far fa-dizzy", 
+	"far fa-grin-tongue-wink"
+];
+
+// INITIALISATION STUFF
 
 $(document).ready(function(){
 	initialisePage();
@@ -8,6 +33,10 @@ $(document).ready(function(){
 });
 
 function initialisePage()	{
+	score = 0;
+	$('#reward').removeClass("fa-meh-blank");
+	$('#reward').addClass(rewards[score]);
+	
 	$('#buttonHelp').click(function(e)	{
 		help();
 	});
@@ -27,6 +56,31 @@ function resetDeep()	{
 	index = 0;
 	numberOfCharacters = 0;
 	solutionCharacters = null;
+	scoringIsNew = true;
+}
+
+
+
+// SET UP GAME
+
+function getWord()	{
+	$.get("backend/words/random", function(data) {
+		jsonData = JSON.parse(data);
+		if (jsonData && jsonData.success)	{
+			showWord(jsonData.result);
+		} else	{
+			alert(data);	
+		}
+	});
+}
+
+function showWord(word)	{
+
+	resetDeep();
+	
+	solutionCharacters = word.word.toLowerCase().split('');
+	numberOfCharacters = solutionCharacters.length;
+	prepareSolution();
 }
 
 function prepareSolution()	{
@@ -70,25 +124,8 @@ function prepareSolution()	{
 }
 
 
-function getWord()	{
-	$.get("backend/words/random", function(data) {
-		jsonData = JSON.parse(data);
-		if (jsonData && jsonData.success)	{
-			showWord(jsonData.result);
-		} else	{
-			alert(data);	
-		}
-	});
-}
 
-function showWord(word)	{
-
-	resetDeep();
-	
-	solutionCharacters = word.word.toLowerCase().split('');
-	numberOfCharacters = solutionCharacters.length;
-	prepareSolution();
-}
+// PLAYER DRAWS
 
 function placeCharacter(character)	{
 	if (!(index < numberOfCharacters))	{
@@ -116,12 +153,27 @@ function checkIfSolved()	{
 			return;
 		}
 	}
+	if (scoringIsNew)	{
+		score++;
+		reward(score);
+		$('#score').text(score);
+		scoringIsNew = false;
+	}
 	show("btn-success")
 }
 
-function show(truth)	{
+function reward(score)	{
+	if (score >= rewards.length)	{
+		// no more emojis :-(
+		return;
+	}
+	$('#reward').removeClass(rewards[score-1]);
+	$('#reward').addClass(rewards[score]);
+}
+
+function show(correctness)	{
 	for (var i = 0; i < solutionCharacters.length; i++) {
 		$('#solutionCharacter'+i).removeClass("btn-dark");
-		$('#solutionCharacter'+i).addClass(truth);	
+		$('#solutionCharacter'+i).addClass(correctness);	
 	}
 }
