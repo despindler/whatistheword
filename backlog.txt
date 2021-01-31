@@ -1,0 +1,12 @@
+user account (sign up, sign in, user dashboard, follow others, battle, teams, ...?)
+levels (word frequency, word length, ...)
+sessions (find words with increasing difficulty, accumulate rewards you can keep whenever you stop, or loose them all as soon as you fail)
+rewards (trophies, user levels, points, coins, ...)
+
+support different languages (mimi)
+undo one single character draw? (currently we can only reset all of it, including re-shuffling) (mimi)
+
+provide hints on demand? could be done by looking definitions (wikipedia) or syonyms (wordnet) (owl)
+
+what about homonyms??? (bernadette)
+
