@@ -13,7 +13,7 @@ function getDB()	{
 
 function dbWordsFindAll()	{
 	$db = getDB();
-	$query = "SELECT w.word FROM words w";
+	$query = "SELECT w.word FROM words w WHERE w.lenght < 8";
 	
 	$query_result = $db->query($query);
 	if (!$query_result) {
