@@ -264,6 +264,9 @@ function penalise()	{
 	}
 	trophyCorrectInARow = 0;
 	setTimeout(function(){ resetTrophy("first"); }, 1200);
+	
+	// reset
+	setTimeout(function(){ prepareSolution(); }, 1800);
 }
 
 function handleTrophyAdded()	{
