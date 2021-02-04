@@ -4,6 +4,9 @@ var solutionCharacters;
 var score;
 var scoringIsNew;
 var suggestToQuit;
+var wordMaxLength;
+var trophyModulo;
+var trophyCorrectInARow;
 
 var rewards = [
 	"far fa-frown", 
@@ -67,8 +70,14 @@ $(document).ready(function(){
 });
 
 function initialisePage()	{
+	wordMaxLength = 7;
 	score = 0;
 	suggestToQuit = true;
+	trophyModulo = 5;
+	trophyCorrectInARow = 0;
+	resetTrophy("first");
+	resetTrophy("second");
+	
 	$('#reward').removeClass("fa-meh-blank");
 	$('#reward').addClass(rewards[score]);
 	
@@ -81,6 +90,11 @@ function initialisePage()	{
 	$('#buttonNextWord').click(function(e)	{
 		getWord();
 	});
+}
+
+function resetTrophy(firstOrSecond)	{
+	$('#trophies-' + firstOrSecond).empty();
+	$('#trophies-' + firstOrSecond).html("&nbsp;");
 }
 
 function help()	{
@@ -99,7 +113,7 @@ function resetDeep()	{
 // SET UP GAME
 
 function getWord()	{
-	$.get("backend/words/random", function(data) {
+	$.get("backend/words/random/" + wordMaxLength, function(data) {
 		jsonData = JSON.parse(data);
 		if (jsonData && jsonData.success)	{
 			showWord(jsonData.result);
@@ -113,7 +127,7 @@ function showWord(word)	{
 
 	resetDeep();
 	
-	solutionCharacters = word.word.toLowerCase().split('');
+	solutionCharacters = word.toLowerCase().split('');
 	numberOfCharacters = solutionCharacters.length;
 	prepareSolution();
 }
@@ -184,6 +198,10 @@ function placeCharacter(character, pos)	{
 function checkIfSolved()	{
 	for (i = 0; i < numberOfCharacters; i++)	{
 		if ($('#solutionCharacter'+i).text() != solutionCharacters[i])	{
+			penalise();
+			if (scoringIsNew)	{
+				notifyBackend("wrong");
+			}
 			show("btn-danger");
 			return;
 		}
@@ -193,8 +211,21 @@ function checkIfSolved()	{
 		reward(score);
 		$('#score').text(score);
 		scoringIsNew = false;
+		notifyBackend("solved");
 	}
 	show("btn-success")
+}
+
+function notifyBackend(theEvent)	{
+	word = solutionCharacters.join("");
+	$.get("backend/notify/" + word + "/" + theEvent, function(data) {
+		jsonData = JSON.parse(data);
+		if (jsonData && jsonData.success)	{
+			// we currently do nothing here
+		} else	{
+			alert(data);	
+		}
+	});
 }
 
 function reward(score)	{
@@ -208,6 +239,42 @@ function reward(score)	{
 	}
 	$('#reward').removeClass(rewards[score-1]);
 	$('#reward').addClass(rewards[score]);
+	
+	// tophies :-)
+	trophyCorrectInARow++;
+	
+	$('#trophies-first').append(
+		$("<i>").addClass("far fa-star")
+	);
+	setTimeout(function(){ handleTrophyAdded(); }, 1200);
+	
+	// next word
+	setTimeout(function(){ getWord(); }, 1800);
+}
+
+function penalise()	{
+	// TODO go back one reward?
+	
+	// tophies :-)
+	resetTrophy("first");
+	for (i = 0; i < trophyCorrectInARow; i++)	{
+		$('#trophies-first').append(
+			$("<i>").addClass("far fa-star-half")
+		);
+	}
+	trophyCorrectInARow = 0;
+	setTimeout(function(){ resetTrophy("first"); }, 1200);
+}
+
+function handleTrophyAdded()	{
+	if (trophyCorrectInARow < trophyModulo)	{
+		return;
+	}
+	$('#trophies-second').append(
+		$("<i>").addClass("fas fa-star")
+	);
+	trophyCorrectInARow = 0;
+	resetTrophy("first");
 }
 
 function show(correctness)	{
